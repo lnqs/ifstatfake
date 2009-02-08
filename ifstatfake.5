@@ -1,0 +1,68 @@
+.TH IFSTATFAKE "5" "April 2008" "ifstatfake" "System Maintenance Manual"
+.SH NAME
+ifstatfake \- Pseudo-file to manipulate the kernel's netdevice statistics
+.SH DESCRIPTION
+.I /proc/net/ifstatfake
+is an interface to the kernel's network-device driver's statistics,
+provided by the
+.B ifstatfake
+kernel-module.
+
+It is a write-only file, which executes commands written to it to to
+modify the statistics. This commands have to follow the syntax:
+.IP
+.I iface
+.B rx|tx
+.I field amount
+.PP
+The meanings of the options are:
+.TP
+.I iface
+The name of the interface to change the statistics, i.e. eth0
+.TP
+.B rx, tx
+Sets whether the statistics in context of received
+(rx) or sent (tx) data should be changed
+.TP
+.I field
+Which field should be changed. Possible values are:
+.B bytes, packets, errs, drop, fifo, frame
+(only with 'rx' set),
+.B compressed, multicast
+(only with 'rx' set),
+.B colls
+(only with 'tx' set) and
+.B carrier
+(only with 'tx' set)
+.TP
+.I amount
+A number the
+.I field
+should be set to or a number to be
+added or substracted from the current value with a
+trailing
+.B '=', '+'
+or
+.B '-'
+to specify if the value should be set, added or substracted
+.LP
+For example,
+.IP
+.B echo eth0 rx drop +30 > /proc/net/ifstatfake
+.PP
+would increment the number of dropped, incoming ethernet-frames of the
+interface eth0 by 30.
+
+The file cannot be read.
+
+.B ifstatfake (8)
+utilizes
+.I /proc/net/ifstatfake
+and provides a more comfortable interface to it.
+.SH AUTHOR
+Written by Simon Schönfeld <simon.schoenfeld@web.de>
+.SH "SEE ALSO"
+.BR ifconfig (8),
+.BR ifstatfake (8),
+.BR proc (5),
+.BR modprobe (8)

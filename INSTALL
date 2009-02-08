@@ -1,0 +1,7 @@
+On most modern systems a "make && make install" should do the job.
+It will compile the kernel-module, copy it to the module-tree, copy
+ifstatfake.sh to /usr/sbin/ifstatfake and install the manpages ifstatfake(5) and ifstatfake(8) to /usr/share/man and the other documentation to /usr/share/doc
+
+The paths can be modified by editing the SBINDIR-, MANDIR- and DOCDIR-variables at top of the Makefile.
+
+Also, ifstatfake can be used without installing. Just type 'make' to compile the module and use 'ifstatfake.sh' to change the statistics.

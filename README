@@ -1,0 +1,49 @@
+ifstatfake provides an interface to modify the statistics of the kernel's
+netdevice drivers, which can be read from '/proc/net/dev' or are printed by ifconfig.
+
+This package contains a kernel-module and a bash-script.
+
+When the module is loaded, it creates /proc/net/ifstatfake, a write-only
+pseudo-file. Based on commands written to this file the module will change
+the statistics.
+
+The bashscript provides another interface to the file in the proc-filesystem
+with userspace syntax-checking of the commands and automatical loading of
+the module. It's purpose is to save some typing and avoid the necessity for
+searching the system's logs for errors when something went wrong.
+
+The syntax of the commands is the same, for both writing directly to
+/proc/net/ifstatfake and the ifstatfake-shellscript:
+
+IFACE rx|tx FIELD AMOUNT
+
+Where the arguments are:
+  IFACE             The name of the interface to change the statistics,
+                    i.e. eth0
+  rx, tx            Sets whether the statistics in context of received
+                    (rx) or sent (tx) data should be changed
+  FIELD             Which field should be changed. Possible values are:
+                       - bytes
+                       - packets
+                       - errs
+                       - drop
+                       - fifo
+                       - frame (only with 'rx' set)
+                       - compressed
+                       - multicast (only with 'rx' set)
+                       - colls (only with 'tx' set)
+                       - carrier (only with 'tx' set)
+  AMOUNT             A number the FIELD should be set to or a number to be
+                     added or substracted from the current value with a
+                     trailing '=', '+' or '-' to specify if the value
+                     should be set, added or substracted
+
+For example the (corresponding to each other) commands:
+	echo "eth0 rx drop +20" >> /proc/net/ifstatfake
+and
+	ifstatfake eth0 rx drop +20
+would increment the number of dropped, incoming ethernet-frames of eth0 by
+20.
+
+Further information can be found in 'man 5 ifstatfake' and
+'man 8 ifstatfake'.
