@@ -1,5 +1,14 @@
+This module/tool was built years ago against a kernel-version I don't remember.
+Don't assume this to build against recent kernels.
+
+Anyway, I decided to dump it here.
+The original README follows:
+
+----------
+
 ifstatfake provides an interface to modify the statistics of the kernel's
-netdevice drivers, which can be read from '/proc/net/dev' or are printed by ifconfig.
+netdevice drivers, which can be read from '/proc/net/dev' or are printed by
+ifconfig.
 
 This package contains a kernel-module and a bash-script.
 
